@@ -20,3 +20,8 @@ button {
     height: 35px;
     font-size: 25px;
 }
+
+.icon {
+    background-color: grey;
+    border-radius: 20px;
+}

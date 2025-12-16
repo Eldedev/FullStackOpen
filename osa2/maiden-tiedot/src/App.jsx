@@ -1,11 +1,49 @@
 import {useState, useEffect} from "react"
 import countyService from "./services/countries"
+import weatherService from "./services/weather"
 
 const ShowButton = ({country, setNewCountry}) => {
     return(
         <button type="button" onClick={() => setNewCountry(country.name.common)}>Show</button>
     )
 }
+
+const WeatherData = ({cityName, countryCode}) => {
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    useEffect(() => {
+        weatherService
+            .getWeather(cityName, countryCode)
+            .then(response => {
+                setData(response.data)
+                setLoading(false)
+            })
+            .catch(error => {
+                setError(error.message)
+                setLoading(false)
+            })
+    },[])
+    if (loading) {
+        return (
+            <p>Loading...</p>
+        )
+    }
+    if (error) {
+        return(
+            <p>weather data not found</p>
+            )
+    }
+    return (
+        <div>
+            <p>Temperature: {data.main.temp}&deg;C</p>
+            <img className="icon" src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} alt={data.weather[0].decription} />
+            <p>Wind: {data.wind.speed} m/s</p>
+        </div>
+    )
+}
+
 
 
 const SearchForm = ({handleCountryChange, newCountry}) => {
@@ -38,6 +76,7 @@ const Countries = ({countries,newCountry, setNewCountry}) => {
                 {country.name.common}: <ShowButton country={country} setNewCountry={setNewCountry}/>
             </p>)
         )
+
     }
     else if (filteredCountries.length > 0) {
         const country = filteredCountries[0]
@@ -52,6 +91,8 @@ const Countries = ({countries,newCountry, setNewCountry}) => {
                     {languageList}
                 </ul>
                 <img src={country.flags.png} alt={country.flags.alt}/>
+                <h2>Weather in {country.capital}</h2>
+                <WeatherData cityName={country.capital} countryCode={country.cca2} />
             </div>
         )
     }
@@ -77,7 +118,6 @@ const App = () => {
                 setCountries(response.data)
             })
     },[])
-
 
 
     const handleCountryChange = (event) => {
