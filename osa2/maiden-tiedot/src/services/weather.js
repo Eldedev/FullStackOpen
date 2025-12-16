@@ -4,9 +4,9 @@ const baseUrl = `https://api.openweathermap.org/data/2.5/weather?q=`
 
 
 
-const getWeather = (cityName, countryCode) => {
+const getWeather = (cityName) => {
     return (
-        axios.get(`${baseUrl}${cityName},${countryCode}&limit=1&appid=${api_key}&units=metric`)
+        axios.get(`${baseUrl}${cityName}&limit=1&appid=${api_key}&units=metric`)
     )
 }
 

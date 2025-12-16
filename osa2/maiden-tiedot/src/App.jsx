@@ -8,14 +8,14 @@ const ShowButton = ({country, setNewCountry}) => {
     )
 }
 
-const WeatherData = ({cityName, countryCode}) => {
+const WeatherData = ({cityName}) => {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
     useEffect(() => {
         weatherService
-            .getWeather(cityName, countryCode)
+            .getWeather(cityName)
             .then(response => {
                 setData(response.data)
                 setLoading(false)
