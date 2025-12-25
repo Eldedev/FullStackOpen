@@ -12,7 +12,7 @@ const Notification = ({message}) => {
     if (message === null) {
         return null
     }
-    else if (message.includes("server")) {
+    else if (message.includes("server") || message.includes("failed")) {
         return (
             <div className="error">{message}</div>
         )
@@ -80,6 +80,13 @@ const App = () => {
                         setNotification(null)
                         },3500)
                         })
+                .catch(err => {
+                    console.log(err.response.data)
+                    setNotification(err.response.data.error)
+                    setTimeout(()=> {
+                        setNotification(null)
+                    }, 5000)
+                })
         }
          else {
             const confirmation = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
