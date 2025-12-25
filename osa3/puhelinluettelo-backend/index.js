@@ -1,31 +1,31 @@
 require('dotenv').config()
-const express = require("express")
-const morgan = require("morgan")
+const express = require('express')
+const morgan = require('morgan')
 
 const app = express()
-const Person = require("./models/person")
+const Person = require('./models/person')
 
 app.use(express.static('dist'))
 app.use(express.json())
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms :content"))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
 
 
 
-morgan.token("content", (req) => {
-    if (req.method === "POST") return JSON.stringify(req.body)
-    else return " "
+morgan.token('content', (req) => {
+    if (req.method === 'POST') return JSON.stringify(req.body)
+    else return ' '
 })
 
 let persons = []
 
 
-app.get("/api/persons", (request, response) => {
+app.get('/api/persons', (request, response) => {
     Person.find({}).then((persons) => {
         response.json(persons)
     })})
 
 
-app.get("/info", (request, response) => {
+app.get('/info', (request, response) => {
     Person.find({}).then(persons => {
         const time = new Date()
         const info = `<p>Phonebook has info for ${persons.length} people</p><p>${time}</p>`
@@ -33,7 +33,7 @@ app.get("/info", (request, response) => {
     })
 })
 
-app.get("/api/persons/:id", (request, response, next) => {
+app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id)
         .then(person => {
             if (person) {
@@ -42,18 +42,18 @@ app.get("/api/persons/:id", (request, response, next) => {
                 response.status(404).end()
             }
         })
-            .catch(error => next(error))
+        .catch(error => next(error))
 })
 
-app.delete("/api/persons/:id", (request, response, next) => {
+app.delete('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndDelete(request.params.id)
-        .then(result => {
+        .then(() => {
             response.status(204).end()
         })
         .catch(error => next(error))
 })
 
-app.post("/api/persons", (request, response, next) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
     const person = new Person({
@@ -66,8 +66,8 @@ app.post("/api/persons", (request, response, next) => {
         .catch(error => next(error))
 })
 
-app.put("/api/persons/:id", (request, response, next) => {
-    const {name, number} = request.body
+app.put('/api/persons/:id', (request, response, next) => {
+    const { name, number } = request.body
 
     Person.findById(request.params.id)
         .then(person => {
@@ -86,7 +86,7 @@ app.put("/api/persons/:id", (request, response, next) => {
 })
 
 const unknownEndpoint = (request, response) => {
-    response.status(404).send({error: "unknown endpoint"})
+    response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
@@ -108,7 +108,7 @@ app.use(errorHandler)
 
 
 const PORT = process.env.PORT
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on ${PORT}`)
 })
 

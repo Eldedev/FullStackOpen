@@ -10,12 +10,17 @@
     "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rmdir /s /q dist && cd ..\\..\\osa2\\puhelinluettelo && npm run build && xcopy dist ..\\..\\osa3\\puhelinluettelo-backend\\dist /E /I /Y",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint .",
   },
   "dependencies": {
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.0.2",
     "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2"
   }
 }

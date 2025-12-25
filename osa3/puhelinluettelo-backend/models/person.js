@@ -5,18 +5,18 @@ mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URI
 
-console.log("connceting to", url)
+console.log('connceting to', url)
 mongoose.connect(url)
-    .then(result => {
-        console.log("connected to MongoDB")
+    .then(() => {
+        console.log('connected to MongoDB')
     })
     .catch(error => {
-        console.log("error connecting to MongoDB", error.message)
+        console.log('error connecting to MongoDB', error.message)
     })
 
 const numberValidation = (number) => {
-    if (number.split("-").length === 2) {
-        const splitNumber = number.split("-")
+    if (number.split('-').length === 2) {
+        const splitNumber = number.split('-')
         return (splitNumber[0].length === 2 || splitNumber[0].length === 3)
     } else return false }
 
@@ -44,5 +44,5 @@ personSchema.set('toJSON', {
 })
 
 
-module.exports = mongoose.model("Person", personSchema)
+module.exports = mongoose.model('Person', personSchema)
 

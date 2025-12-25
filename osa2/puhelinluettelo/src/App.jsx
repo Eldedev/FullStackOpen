@@ -103,10 +103,9 @@ const App = () => {
                             setNotification(null)
                         },3500)
                     })
-                    .catch(error => {
-                        setNotification(
-                            `${currentPerson.name} was already deleted from server`
-                        )
+                    .catch(err => {
+                        console.log(err.response.data)
+                        setNotification(err.response.data.error)
                         setTimeout(() => {
                             setNotification(null)
                         }, 5000)
