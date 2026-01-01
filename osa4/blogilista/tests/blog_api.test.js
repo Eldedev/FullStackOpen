@@ -64,8 +64,9 @@ describe("http get blogs", () => {
 
     test('a blog can be added and includes added title', async () => {
         const newBlog = {
-            title: "Jonnen Juomat",
             author: "Jonatan Saari",
+            title: "Jonnen Juomat",
+            url: "https://jonatan.com/"
         }
 
         await api
@@ -88,7 +89,8 @@ describe("http get blogs", () => {
         const blogWithLikes = {
             title: "Jonnen Juomat2",
             author: "Jonatan Saari2",
-            likes: 100
+            likes: 100,
+            url: "https://jonatan.com/"
         }
 
         await api
@@ -109,6 +111,7 @@ describe("http get blogs", () => {
         const blogWithNoLikes = {
             title: "Jonnen Juomat",
             author: "Jonatan Saari",
+            url: "https://jonatan.com/"
         }
 
         await api
@@ -181,7 +184,7 @@ describe("http get blogs", () => {
 
     })
 
-    test.only("existing blog can be deleted", async () => {
+    test("existing blog can be deleted", async () => {
         const blogWithUrlAndTitle = {
             author: "Jonatan Saari",
             title: "Jonnen Juomat",
@@ -203,14 +206,16 @@ describe("http get blogs", () => {
             .expect(204)
     })
 
-    test.only("blog with malformatted id cant be deleted", async () => {
+    test("blog with malformatted id cant be deleted", async () => {
 
         await api
             .delete(`/api/blogs/99999999999999999999`)
             .expect(400)
     })
 
-    after(async () => {
-        await mongoose.connection.close()
-    })
+
+})
+
+after(async () => {
+    await mongoose.connection.close()
 })
