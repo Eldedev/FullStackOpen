@@ -1,15 +1,15 @@
-const Notification = ({message}) => {
+const Notification = ({ message }) => {
     if (message === null) {
         return null
     }
-    else if (message.includes("wrong") || message.includes("required")) {
+    else if (message.includes('wrong') || message.includes('required')) {
         return (
             <div className="error">{message}</div>
         )
     }
     else return (
-            <div className="notification">{message}</div>
-        )
+        <div className="notification">{message}</div>
+    )
 }
 
 export default Notification
